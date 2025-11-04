@@ -153,18 +153,33 @@ if "%AUTO_BUILD%"=="1" (
     
     call :Log "Build directory: !BUILD_ROOT!"
     
-    REM Call the build script
-    if exist "!BUILD_ROOT!\scripts\build.bat" (
-        cd /d "!BUILD_ROOT!"
-        call scripts\build.bat
+    cd /d "!BUILD_ROOT!"
+    
+    REM Create and clean build directory
+    if exist "build" (
+        call :Log "Cleaning existing build directory..."
+        rmdir /s /q "build"
+    )
+    mkdir build
+    cd build
+    
+    REM Run CMake configuration
+    call :Log "Running CMake..."
+    cmake .. >> "%LOG_FILE%" 2>&1
+    if errorlevel 1 (
+        call :LogWarning "CMake configuration failed! Check log for details."
+    ) else (
+        REM Build the project
+        call :Log "Building project..."
+        cmake --build . --config Release >> "%LOG_FILE%" 2>&1
         if errorlevel 1 (
-            call :LogWarning "Build failed!"
+            call :LogWarning "Build failed! Check log for details."
         ) else (
             call :LogSuccess "Build completed successfully"
         )
-    ) else (
-        call :LogWarning "Build script not found, skipping build"
     )
+    
+    cd /d "%SCRIPT_DIR%"
 )
 
 REM ============================================================================
