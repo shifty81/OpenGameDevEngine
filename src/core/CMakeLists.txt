@@ -13,10 +13,12 @@ target_include_directories(OGDECore
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-# Core links to platform and graphics libraries
-# Note: This works because Graphics is header-only dependent on Core (Logger.h)
-# and Core is source-level dependent on Graphics (Renderer.cpp)
-target_link_libraries(OGDECore PUBLIC OGDE::Platform OGDE::Graphics)
+# Core links to platform library
+# Graphics is linked privately since Engine.cpp needs it, but consumers don't need to link it directly
+target_link_libraries(OGDECore 
+    PUBLIC OGDE::Platform
+    PRIVATE OGDE::Graphics
+)
 
 add_library(OGDE::Core ALIAS OGDECore)
 
