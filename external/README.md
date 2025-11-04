@@ -32,7 +32,7 @@ You can use various methods to manage dependencies:
 
 Suggested third-party libraries for future integration:
 
-- **Graphics**: GLFW, SDL2, Vulkan SDK
+- **Graphics**: GLFW, SDL2
 - **Audio**: OpenAL, FMOD, Wwise
 - **Physics**: Bullet Physics, PhysX
 - **Scripting**: Lua, ChaiScript
