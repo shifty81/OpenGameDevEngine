@@ -1,19 +1,31 @@
 # OpenGameDevEngine
 
-A modular game development engine template built with C++17.
+A modular game development engine built with C++17, featuring DirectX 11 rendering.
 
-This project provides a well-organized structure and build system foundation for building a game engine.
+This project provides a well-organized structure and build system foundation for building a game engine with a focus on Windows-native DirectX support.
 
-## Features (Planned)
+## Features
 
+### Implemented ✅
 - **Modular Architecture**: Independent subsystems that can be used separately
-- **Graphics Rendering**: Modern rendering pipeline with DirectX support
+- **Platform Layer**: Windows Win32 window management with cross-platform timer support
+- **Core Engine**: Main game loop with delta time, FPS monitoring, and callback system
+- **DirectX 11 Rendering**: 
+  - Device and swap chain initialization
+  - Render target and depth stencil management
+  - Clear screen and color rendering
+  - Shader compilation system (HLSL)
+  - Window resize support
+- **Logging System**: Multi-level logging with timestamps and file output
+- **Build Automation**: CMake-based build system with Windows batch scripts
+
+### Planned 🚧
 - **Audio System**: Multi-channel audio with support for music and sound effects
 - **Input Handling**: Keyboard, mouse, and controller input support
 - **Physics Engine**: 2D/3D physics simulation and collision detection
 - **Scripting**: Embedded scripting support for game logic
 - **Networking**: Built-in multiplayer networking capabilities
-- **Cross-platform**: Support for Windows, Linux, and macOS
+- **Advanced Graphics**: Triangle/mesh rendering, textures, lighting, and effects
 
 ## Project Structure
 
@@ -75,13 +87,20 @@ cmake --build .
 
 ## Examples
 
-Check out the `examples/` directory for sample projects demonstrating engine features.
+Check out the `examples/` directory for sample projects demonstrating engine features:
+
+- **BasicExample**: Minimal engine initialization and main loop
+- **TriangleDemo**: DirectX 11 rendering with color-cycling background
+
+See [examples/README.md](examples/README.md) for more information.
 
 ## Documentation
 
 - [API Documentation](docs/api/README.md)
 - [Tutorials](docs/tutorials/README.md)
 - [Architecture](docs/design/ARCHITECTURE.md)
+- [Development Roadmap](docs/ROADMAP.md)
+- [Implementation Summary](docs/IMPLEMENTATION_SUMMARY.md)
 
 ## Contributing
 
@@ -93,6 +112,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Status
 
-🚧 **This project is in early development** 🚧
+🚀 **Phase 1: Foundation - 75% Complete** 🚀
 
-The current repository provides a feature layout and building structure template for future development.
+The engine has successfully implemented:
+- ✅ Core engine loop and timing system
+- ✅ Platform abstraction layer (Windows/Linux)
+- ✅ DirectX 11 rendering foundation
+- ✅ Shader compilation system
+- ✅ Comprehensive logging system
+- ✅ Build automation
+
+Next up: Complete triangle rendering and mesh support!
+
+See [ROADMAP.md](docs/ROADMAP.md) for the full development plan.

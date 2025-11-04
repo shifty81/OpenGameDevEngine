@@ -14,6 +14,10 @@ namespace platform {
     class WindowWin32;
 }
 
+namespace graphics {
+    class Renderer;
+}
+
 namespace core {
 
 /**
@@ -90,6 +94,12 @@ public:
      */
     float getFPS() const { return m_fps; }
 
+    /**
+     * @brief Get the renderer
+     * @return Pointer to the renderer
+     */
+    graphics::Renderer* getRenderer() const { return m_renderer.get(); }
+
 private:
     void updateTiming();
     void updateFPS();
@@ -108,6 +118,9 @@ private:
     // Platform
     std::unique_ptr<platform::WindowWin32> m_window;
 #endif
+
+    // Graphics
+    std::unique_ptr<graphics::Renderer> m_renderer;
 
     // Callbacks
     std::function<void(float)> m_updateCallback;

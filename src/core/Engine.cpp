@@ -5,6 +5,7 @@
 #include "ogde/core/Engine.h"
 #include "ogde/core/Logger.h"
 #include "ogde/platform/Platform.h"
+#include "ogde/graphics/Renderer.h"
 
 #ifdef _WIN32
 #include "ogde/platform/WindowWin32.h"
@@ -57,7 +58,19 @@ bool Engine::initialize(const EngineConfig& config) {
 
     m_window->setResizeCallback([this](uint32_t width, uint32_t height) {
         Logger::info("Window resized: " + std::to_string(width) + "x" + std::to_string(height));
+        if (m_renderer && m_renderer->isInitialized()) {
+            m_renderer->resize(width, height);
+        }
     });
+
+    // Initialize renderer
+    m_renderer = std::make_unique<graphics::Renderer>();
+    if (!m_renderer->initialize(m_window->getHandle(), m_config.windowWidth, m_config.windowHeight, m_config.enableVSync)) {
+        Logger::error("Failed to initialize renderer!");
+        return false;
+    }
+
+    Logger::info("Renderer initialized successfully!");
 #endif
 
     m_running = true;
@@ -76,6 +89,12 @@ void Engine::shutdown() {
     Logger::info("Shutting down engine...");
 
 #ifdef _WIN32
+    // Shutdown renderer
+    if (m_renderer) {
+        m_renderer->shutdown();
+        m_renderer.reset();
+    }
+
     // Destroy window
     if (m_window) {
         m_window->destroy();
@@ -105,6 +124,12 @@ void Engine::run() {
         // Update timing
         updateTiming();
 
+        // Begin frame
+        if (m_renderer && m_renderer->isInitialized()) {
+            m_renderer->beginFrame();
+            m_renderer->clear(0.0f, 0.2f, 0.4f, 1.0f); // Clear to a nice blue color
+        }
+
         // Update
         if (m_updateCallback) {
             m_updateCallback(m_deltaTime);
@@ -113,6 +138,11 @@ void Engine::run() {
         // Render
         if (m_renderCallback) {
             m_renderCallback();
+        }
+
+        // End frame
+        if (m_renderer && m_renderer->isInitialized()) {
+            m_renderer->endFrame();
         }
 
         // Update FPS counter
