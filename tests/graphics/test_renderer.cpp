@@ -14,7 +14,7 @@ int testsFailed = 0;
 
 #define TEST(name) \
     std::cout << "Testing: " << name << "... "; \
-    if (true)
+    do {} while(false); if (true)
 
 #define EXPECT_TRUE(condition) \
     if (condition) { \

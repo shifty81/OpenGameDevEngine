@@ -58,10 +58,10 @@ Camera::Camera()
     m_rotation[1] = 0.0f;  // yaw
     m_rotation[2] = 0.0f;  // roll
 
-    // Initialize direction vectors
+    // Initialize direction vectors (DirectX left-handed coordinate system)
     m_forward[0] = 0.0f;
     m_forward[1] = 0.0f;
-    m_forward[2] = 1.0f;  // Looking down positive Z
+    m_forward[2] = 1.0f;  // Forward is positive Z in DirectX left-handed system
 
     m_right[0] = 1.0f;
     m_right[1] = 0.0f;
@@ -272,8 +272,10 @@ void Camera::update() {
 void Camera::updateViewMatrix() {
     // Create view matrix using look-at approach
     // View matrix is the inverse of camera's world transform
+    // For an orthonormal rotation matrix, the inverse is the transpose
+    // The translation is negated and transformed by the transposed rotation
     
-    // Column-major format for DirectX
+    // Column-major format for DirectX (transposed rotation)
     m_viewMatrix[0] = m_right[0];
     m_viewMatrix[1] = m_up[0];
     m_viewMatrix[2] = m_forward[0];
