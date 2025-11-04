@@ -1,5 +1,49 @@
 # Building OpenGameDevEngine
 
+## Automated Build (Recommended for Windows)
+
+### First Time Setup
+
+Run the setup script to verify prerequisites:
+```batch
+scripts\setup.bat
+```
+
+### Building with Scripts
+
+Use the automated build script:
+```batch
+scripts\build.bat
+```
+
+#### Build Options
+
+- `--clean` - Clean build directory before building
+- `--debug` - Build in Debug mode
+- `--release` - Build in Release mode (default)
+- `--run-examples` - Run examples after building
+- `--run-tests` - Run unit tests after building
+- `--help` - Show all options
+
+#### Examples
+
+```batch
+# Clean release build
+scripts\build.bat --clean --release
+
+# Debug build with tests
+scripts\build.bat --debug --run-tests
+
+# Build and run examples
+scripts\build.bat --run-examples
+```
+
+### Build Logs
+
+All build logs are automatically saved to the `logs/` directory with timestamps for troubleshooting.
+
+## Manual Build
+
 ## Prerequisites
 
 - CMake 3.15 or higher

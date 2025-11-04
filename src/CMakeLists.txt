@@ -1,5 +1,8 @@
 # OpenGameDevEngine Source
 
+# Platform library
+add_subdirectory(platform)
+
 # Core library
 add_subdirectory(core)
 
@@ -24,6 +27,7 @@ add_subdirectory(networking)
 # Main engine library that combines all modules
 add_library(OpenGameDevEngine INTERFACE)
 target_link_libraries(OpenGameDevEngine INTERFACE
+    OGDE::Platform
     OGDE::Core
     OGDE::Graphics
     OGDE::Audio

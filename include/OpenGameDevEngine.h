@@ -8,6 +8,12 @@
 #ifndef OGDE_OPENGAMEDEVENGINE_H
 #define OGDE_OPENGAMEDEVENGINE_H
 
+// Platform module
+#include "ogde/platform/Platform.h"
+#ifdef _WIN32
+#include "ogde/platform/WindowWin32.h"
+#endif
+
 // Core module
 #include "ogde/core/Engine.h"
 #include "ogde/core/Logger.h"

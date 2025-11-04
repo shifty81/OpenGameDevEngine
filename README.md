@@ -42,9 +42,31 @@ OpenGameDevEngine/
 
 ## Building
 
-See [BUILD.md](BUILD.md) for detailed build instructions.
+### Quick Start (Windows)
 
-Quick start:
+For first-time users on Windows:
+
+```batch
+# 1. Check prerequisites
+scripts\setup.bat
+
+# 2. Build the engine
+scripts\build.bat
+
+# 3. Run the example
+build\bin\Release\BasicExample.exe
+```
+
+For more build options:
+```batch
+scripts\build.bat --help
+```
+
+### Manual Build
+
+See [BUILD.md](BUILD.md) for detailed build instructions and manual build process.
+
+Quick manual build:
 ```bash
 mkdir build && cd build
 cmake ..

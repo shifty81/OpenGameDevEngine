@@ -30,6 +30,18 @@ enum class LogLevel {
 class Logger {
 public:
     /**
+     * @brief Initialize file logging
+     * @param filename Path to log file
+     * @return true if file logging was enabled successfully
+     */
+    static bool initializeFileLogging(const std::string& filename);
+
+    /**
+     * @brief Shutdown file logging
+     */
+    static void shutdownFileLogging();
+
+    /**
      * @brief Log a message with specified severity level
      * @param level The severity level
      * @param message The message to log
@@ -59,6 +71,12 @@ public:
      * @param message The message to log
      */
     static void error(const std::string& message);
+
+    /**
+     * @brief Log a critical message
+     * @param message The message to log
+     */
+    static void critical(const std::string& message);
 };
 
 } // namespace core
