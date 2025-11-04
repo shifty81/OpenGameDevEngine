@@ -58,6 +58,9 @@ conan/
 .cache/
 logs/
 
+# PR testing workspace
+pr-workspace/
+
 # CodeQL
 _codeql_build_dir/
 _codeql_detected_source_root

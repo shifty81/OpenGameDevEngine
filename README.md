@@ -103,6 +103,25 @@ See [examples/README.md](examples/README.md) for more information.
 - [Architecture](docs/design/ARCHITECTURE.md)
 - [Development Roadmap](docs/ROADMAP.md)
 - [Implementation Summary](docs/IMPLEMENTATION_SUMMARY.md)
+- [PR Testing Guide](docs/PR_TESTING.md) - Test pull requests automatically
+
+## Testing Pull Requests
+
+Want to test the next version before it's released? Use our automated PR testing tool:
+
+```batch
+# Windows: Test any PR
+scripts\test-pr.bat --pr 42
+
+# Linux/macOS: Test any PR
+./scripts/test-pr.sh --pr 42
+```
+
+The tool supports two modes:
+- **In-place mode**: Update your current directory with the PR
+- **Multi-version mode**: Create separate directories for each PR (`pr-workspace/pr-42/`)
+
+See the [PR Testing Guide](docs/PR_TESTING.md) for detailed instructions and examples.
 
 ## Contributing
 
