@@ -83,5 +83,11 @@ bool Renderer::isInitialized() const {
     return false;
 }
 
+#ifdef _WIN32
+RendererD3D11* Renderer::getD3D11Renderer() const {
+    return m_rendererD3D11.get();
+}
+#endif
+
 } // namespace graphics
 } // namespace ogde

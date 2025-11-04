@@ -78,6 +78,14 @@ public:
      */
     bool isInitialized() const;
 
+#ifdef _WIN32
+    /**
+     * @brief Get the platform-specific DirectX 11 renderer
+     * @return Pointer to RendererD3D11 (Windows only)
+     */
+    RendererD3D11* getD3D11Renderer() const;
+#endif
+
 private:
 #ifdef _WIN32
     std::unique_ptr<RendererD3D11> m_rendererD3D11;

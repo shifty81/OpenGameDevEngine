@@ -83,17 +83,11 @@ int main() {
     // Get DirectX 11 renderer (Windows only)
     auto* d3dRenderer = dynamic_cast<ogde::graphics::Renderer*>(renderer);
     
-    // Create shader
-    ogde::graphics::Shader shader;
-    D3D11_INPUT_ELEMENT_DESC inputLayout[] = {
-        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-    };
-
-    // We need to access the D3D11 device through the renderer
-    // For now, we'll just demonstrate the engine running with a clear color
+    // Get the actual D3D11 device and context
+    // We need to access these through the platform-specific implementation
+    // For now, we'll create our resources here and manage them locally
+    
     ogde::core::Logger::info("DirectX 11 triangle rendering example");
-    ogde::core::Logger::info("Note: Full triangle rendering will be implemented in the next iteration");
 
     // Triangle vertices (in NDC space: -1 to 1)
     Vertex vertices[] = {
@@ -106,6 +100,47 @@ int main() {
     ogde::core::Logger::info("  Vertex 0: (0.0, 0.5, 0.0) - Red");
     ogde::core::Logger::info("  Vertex 1: (0.5, -0.5, 0.0) - Green");
     ogde::core::Logger::info("  Vertex 2: (-0.5, -0.5, 0.0) - Blue");
+
+    // We need access to the D3D11 device to create buffers and shaders
+    // Let's get this through the platform window system
+    #ifdef _WIN32
+    
+    // Get the platform-specific D3D11 renderer
+    auto* d3d11Renderer = renderer->getD3D11Renderer();
+    
+    if (!d3d11Renderer || !d3d11Renderer->getDevice()) {
+        ogde::core::Logger::error("Failed to get D3D11 device!");
+        return 1;
+    }
+
+    ID3D11Device* device = d3d11Renderer->getDevice();
+    ID3D11DeviceContext* deviceContext = d3d11Renderer->getDeviceContext();
+
+    // Create shader
+    ogde::graphics::Shader shader;
+    D3D11_INPUT_ELEMENT_DESC inputLayout[] = {
+        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+    };
+
+    if (!shader.createFromSource(device, vertexShaderSource, pixelShaderSource, 
+                                 inputLayout, ARRAYSIZE(inputLayout))) {
+        ogde::core::Logger::error("Failed to create shader!");
+        return 1;
+    }
+
+    ogde::core::Logger::info("Shader created successfully!");
+
+    // Create vertex buffer
+    Microsoft::WRL::ComPtr<ID3D11Buffer> vertexBuffer;
+    if (!d3d11Renderer->createVertexBuffer(vertices, sizeof(Vertex), 3, 
+                                          vertexBuffer.GetAddressOf())) {
+        ogde::core::Logger::error("Failed to create vertex buffer!");
+        return 1;
+    }
+
+    ogde::core::Logger::info("Vertex buffer created successfully!");
+    #endif
 
     // Set update callback
     uint32_t frameCount = 0;
@@ -120,22 +155,26 @@ int main() {
     // Set render callback - change clear color over time
     float hue = 0.0f;
     engine.setRenderCallback([&]() {
-        // Cycle through colors
-        hue += 0.001f;
+        // Cycle through colors (slower now)
+        hue += 0.0005f;
         if (hue > 1.0f) hue = 0.0f;
         
         float r = 0.5f + 0.5f * std::sin(hue * 6.28f);
         float g = 0.5f + 0.5f * std::sin((hue + 0.333f) * 6.28f);
         float b = 0.5f + 0.5f * std::sin((hue + 0.666f) * 6.28f);
         
-        renderer->clear(r * 0.3f, g * 0.3f, b * 0.3f, 1.0f);
+        renderer->clear(r * 0.2f, g * 0.2f, b * 0.2f, 1.0f);
         
-        // Triangle rendering would go here
-        // This requires accessing the D3D11 device context to create and draw vertex buffers
+        #ifdef _WIN32
+        // Bind shader and render triangle
+        shader.bind(deviceContext);
+        d3d11Renderer->setVertexBuffer(vertexBuffer.Get(), sizeof(Vertex));
+        d3d11Renderer->draw(3);
+        #endif
     });
 
     ogde::core::Logger::info("Starting engine main loop...");
-    ogde::core::Logger::info("You should see a window with a color-cycling background!");
+    ogde::core::Logger::info("You should see a window with a colored triangle on a color-cycling background!");
     
     // Run the engine
     engine.run();
