@@ -147,6 +147,7 @@ private:
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_renderTargetView;
     Microsoft::WRL::ComPtr<ID3D11Texture2D> m_depthStencilBuffer;
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_depthStencilView;
+    Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_rasterizerState;
 };
 
 } // namespace graphics

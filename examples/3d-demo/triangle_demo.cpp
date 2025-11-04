@@ -83,16 +83,17 @@ int main() {
     ogde::core::Logger::info("DirectX 11 triangle rendering example");
 
     // Triangle vertices (in NDC space: -1 to 1)
+    // Counter-clockwise winding order for proper front-face rendering
     Vertex vertices[] = {
         { { 0.0f,  0.5f, 0.0f }, { 1.0f, 0.0f, 0.0f, 1.0f } },  // Top (red)
-        { { 0.5f, -0.5f, 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f } },  // Right (green)
-        { {-0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f } }   // Left (blue)
+        { {-0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f } },  // Bottom-left (blue)
+        { { 0.5f, -0.5f, 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f } }   // Bottom-right (green)
     };
 
-    ogde::core::Logger::info("Triangle vertices prepared:");
-    ogde::core::Logger::info("  Vertex 0: (0.0, 0.5, 0.0) - Red");
-    ogde::core::Logger::info("  Vertex 1: (0.5, -0.5, 0.0) - Green");
-    ogde::core::Logger::info("  Vertex 2: (-0.5, -0.5, 0.0) - Blue");
+    ogde::core::Logger::info("Triangle vertices prepared (counter-clockwise):");
+    ogde::core::Logger::info("  Vertex 0: (0.0, 0.5, 0.0) - Red (top)");
+    ogde::core::Logger::info("  Vertex 1: (-0.5, -0.5, 0.0) - Blue (bottom-left)");
+    ogde::core::Logger::info("  Vertex 2: (0.5, -0.5, 0.0) - Green (bottom-right)");
 
     // We need access to the D3D11 device to create buffers and shaders
     // Let's get this through the platform window system

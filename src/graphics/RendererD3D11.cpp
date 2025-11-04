@@ -154,6 +154,29 @@ bool RendererD3D11::initialize(HWND hwnd, uint32_t width, uint32_t height, bool 
 
     m_deviceContext->RSSetViewports(1, &viewport);
 
+    // Create rasterizer state with no backface culling
+    D3D11_RASTERIZER_DESC rasterizerDesc = {};
+    rasterizerDesc.FillMode = D3D11_FILL_SOLID;
+    rasterizerDesc.CullMode = D3D11_CULL_NONE;  // Disable backface culling
+    rasterizerDesc.FrontCounterClockwise = FALSE;  // Counter-clockwise is front-facing (default)
+    rasterizerDesc.DepthBias = 0;
+    rasterizerDesc.DepthBiasClamp = 0.0f;
+    rasterizerDesc.SlopeScaledDepthBias = 0.0f;
+    rasterizerDesc.DepthClipEnable = TRUE;
+    rasterizerDesc.ScissorEnable = FALSE;
+    rasterizerDesc.MultisampleEnable = FALSE;
+    rasterizerDesc.AntialiasedLineEnable = FALSE;
+
+    hr = m_device->CreateRasterizerState(&rasterizerDesc, m_rasterizerState.GetAddressOf());
+    if (FAILED(hr)) {
+        core::Logger::error("Failed to create rasterizer state");
+        return false;
+    }
+
+    // Set the rasterizer state
+    m_deviceContext->RSSetState(m_rasterizerState.Get());
+    core::Logger::info("Rasterizer state configured (backface culling disabled)");
+
     m_initialized = true;
     core::Logger::info("DirectX 11 renderer initialized successfully!");
     return true;
@@ -170,6 +193,7 @@ void RendererD3D11::shutdown() {
     releaseRenderTarget();
     m_depthStencilView.Reset();
     m_depthStencilBuffer.Reset();
+    m_rasterizerState.Reset();
     
     if (m_deviceContext) {
         m_deviceContext->ClearState();
