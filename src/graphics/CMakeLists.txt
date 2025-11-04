@@ -2,6 +2,7 @@
 
 set(GRAPHICS_SOURCES
     Renderer.cpp
+    Camera.cpp
 )
 
 # Add DirectX 11 renderer on Windows

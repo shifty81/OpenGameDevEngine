@@ -22,6 +22,7 @@
 // Graphics module
 #include "ogde/graphics/Renderer.h"
 #include "ogde/graphics/Window.h"
+#include "ogde/graphics/Camera.h"
 
 // Audio module
 #include "ogde/audio/AudioEngine.h"
