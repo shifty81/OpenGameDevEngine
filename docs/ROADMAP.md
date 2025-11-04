@@ -415,7 +415,6 @@ Create a comprehensive, open-source game engine optimized for Windows that enabl
 ## Future Enhancements (Beyond Phase 14)
 
 ### Advanced Features
-- [ ] Vulkan rendering backend
 - [ ] Linux support
 - [ ] VR support (OpenVR)
 - [ ] Advanced AI (machine learning)

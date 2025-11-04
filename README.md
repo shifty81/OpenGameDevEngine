@@ -7,7 +7,7 @@ This project provides a well-organized structure and build system foundation for
 ## Features (Planned)
 
 - **Modular Architecture**: Independent subsystems that can be used separately
-- **Graphics Rendering**: Modern rendering pipeline with OpenGL/Vulkan support
+- **Graphics Rendering**: Modern rendering pipeline with DirectX support
 - **Audio System**: Multi-channel audio with support for music and sound effects
 - **Input Handling**: Keyboard, mouse, and controller input support
 - **Physics Engine**: 2D/3D physics simulation and collision detection
