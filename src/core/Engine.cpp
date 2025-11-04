@@ -121,7 +121,9 @@ void Engine::run() {
         // Frame rate limiting (if not using VSync)
         if (!m_config.enableVSync && m_config.targetFPS > 0) {
             double targetFrameTime = 1.0 / m_config.targetFPS;
-            double currentFrameTime = platform::Platform::getTime() - m_lastFrameTime;
+            double frameEndTime = platform::Platform::getTime();
+            double currentFrameTime = frameEndTime - m_lastFrameTime;
+            
             if (currentFrameTime < targetFrameTime) {
                 uint32_t sleepTime = static_cast<uint32_t>((targetFrameTime - currentFrameTime) * 1000.0);
                 platform::Platform::sleep(sleepTime);
@@ -147,6 +149,14 @@ void Engine::setRenderCallback(std::function<void()> callback) {
 void Engine::updateTiming() {
     double currentTime = platform::Platform::getTime();
     m_deltaTime = static_cast<float>(currentTime - m_lastFrameTime);
+    
+    // Clamp delta time to prevent issues when debugging or window loses focus
+    // Maximum delta time of 0.1 seconds (10 FPS minimum)
+    const float maxDeltaTime = 0.1f;
+    if (m_deltaTime > maxDeltaTime) {
+        m_deltaTime = maxDeltaTime;
+    }
+    
     m_lastFrameTime = currentTime;
 }
 

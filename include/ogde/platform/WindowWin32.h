@@ -116,6 +116,7 @@ private:
     uint32_t m_height;
     bool m_isActive;
     bool m_shouldClose;
+    bool m_classRegistered;
 
     ResizeCallback m_resizeCallback;
     CloseCallback m_closeCallback;

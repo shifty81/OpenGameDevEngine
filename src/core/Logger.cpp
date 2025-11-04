@@ -34,6 +34,26 @@ static std::string getLevelString(LogLevel level) {
     }
 }
 
+bool Logger::initializeFileLogging(const std::string& filename) {
+    if (g_fileLoggingEnabled) {
+        shutdownFileLogging();
+    }
+
+    g_logFile.open(filename, std::ios::out | std::ios::app);
+    if (g_logFile.is_open()) {
+        g_fileLoggingEnabled = true;
+        return true;
+    }
+    return false;
+}
+
+void Logger::shutdownFileLogging() {
+    if (g_logFile.is_open()) {
+        g_logFile.close();
+    }
+    g_fileLoggingEnabled = false;
+}
+
 void Logger::log(LogLevel level, const std::string& message) {
     std::string timestamp = getCurrentTimestamp();
     std::string levelStr = getLevelString(level);
@@ -67,6 +87,10 @@ void Logger::warning(const std::string& message) {
 
 void Logger::error(const std::string& message) {
     log(LogLevel::Error, message);
+}
+
+void Logger::critical(const std::string& message) {
+    log(LogLevel::Critical, message);
 }
 
 } // namespace core

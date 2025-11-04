@@ -17,6 +17,7 @@ WindowWin32::WindowWin32()
     , m_height(0)
     , m_isActive(false)
     , m_shouldClose(false)
+    , m_classRegistered(false)
 {
 }
 
@@ -43,6 +44,7 @@ bool WindowWin32::create(const std::string& title, uint32_t width, uint32_t heig
         std::cerr << "Failed to register window class!" << std::endl;
         return false;
     }
+    m_classRegistered = true;
 
     // Calculate window size with borders
     RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
@@ -89,7 +91,11 @@ void WindowWin32::destroy() {
         m_hwnd = nullptr;
     }
 
-    UnregisterClass("OpenGameDevEngineWindow", m_hinstance);
+    if (m_classRegistered) {
+        UnregisterClass("OpenGameDevEngineWindow", m_hinstance);
+        m_classRegistered = false;
+    }
+    
     m_isActive = false;
 }
 
