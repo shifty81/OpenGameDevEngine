@@ -80,6 +80,10 @@ if /i "%~1"=="--in-place" (
     goto :ParseArgs
 )
 if /i "%~1"=="--pr" (
+    if "%~2"=="" (
+        call :LogError "--pr requires a PR number argument"
+        goto :Error
+    )
     set PR_NUMBER=%~2
     shift
     shift
@@ -91,6 +95,10 @@ if /i "%~1"=="--no-build" (
     goto :ParseArgs
 )
 if /i "%~1"=="--workspace" (
+    if "%~2"=="" (
+        call :LogError "--workspace requires a directory path argument"
+        goto :Error
+    )
     set WORKSPACE_DIR=%~2
     shift
     shift

@@ -157,6 +157,10 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         --pr)
+            if [ -z "$2" ]; then
+                log_error "--pr requires a PR number argument"
+                exit 1
+            fi
             PR_NUMBER="$2"
             shift 2
             ;;
@@ -165,6 +169,10 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         --workspace)
+            if [ -z "$2" ]; then
+                log_error "--workspace requires a directory path argument"
+                exit 1
+            fi
             WORKSPACE_DIR="$2"
             shift 2
             ;;
@@ -327,7 +335,7 @@ if [ "$AUTO_BUILD" -eq 1 ]; then
     log "Running CMake..."
     if cmake .. >> "$LOG_FILE" 2>&1; then
         log "Running build..."
-        if cmake --build . >> "$LOG_FILE" 2>&1; then
+        if cmake --build . --config Release >> "$LOG_FILE" 2>&1; then
             log_success "Build completed successfully"
         else
             log_warning "Build failed! Check log for details."
