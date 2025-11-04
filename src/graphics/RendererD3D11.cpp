@@ -337,6 +337,63 @@ bool RendererD3D11::createDepthStencil(uint32_t width, uint32_t height) {
     return true;
 }
 
+bool RendererD3D11::createVertexBuffer(const void* vertices, uint32_t vertexSize, 
+                                       uint32_t vertexCount, ID3D11Buffer** outBuffer) {
+    if (!m_initialized || !m_device || !vertices || !outBuffer) {
+        core::Logger::error("Cannot create vertex buffer: invalid parameters");
+        return false;
+    }
+
+    // Create vertex buffer description
+    D3D11_BUFFER_DESC bufferDesc = {};
+    bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+    bufferDesc.ByteWidth = vertexSize * vertexCount;
+    bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+    bufferDesc.CPUAccessFlags = 0;
+    bufferDesc.MiscFlags = 0;
+    bufferDesc.StructureByteStride = 0;
+
+    // Create subresource data
+    D3D11_SUBRESOURCE_DATA initData = {};
+    initData.pSysMem = vertices;
+    initData.SysMemPitch = 0;
+    initData.SysMemSlicePitch = 0;
+
+    // Create the buffer
+    HRESULT hr = m_device->CreateBuffer(&bufferDesc, &initData, outBuffer);
+    if (FAILED(hr)) {
+        core::Logger::error("Failed to create vertex buffer");
+        return false;
+    }
+
+    core::Logger::info("Vertex buffer created successfully: " + 
+                      std::to_string(vertexCount) + " vertices, " +
+                      std::to_string(vertexSize) + " bytes per vertex");
+    return true;
+}
+
+void RendererD3D11::setVertexBuffer(ID3D11Buffer* buffer, uint32_t vertexSize, uint32_t offset) {
+    if (!m_initialized || !m_deviceContext || !buffer) {
+        return;
+    }
+
+    UINT stride = vertexSize;
+    UINT offsetValue = offset;
+    m_deviceContext->IASetVertexBuffers(0, 1, &buffer, &stride, &offsetValue);
+}
+
+void RendererD3D11::draw(uint32_t vertexCount, uint32_t startVertex) {
+    if (!m_initialized || !m_deviceContext) {
+        return;
+    }
+
+    // Set primitive topology to triangle list
+    m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    
+    // Draw
+    m_deviceContext->Draw(vertexCount, startVertex);
+}
+
 } // namespace graphics
 } // namespace ogde
 

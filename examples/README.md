@@ -24,14 +24,15 @@ A minimal example showing how to initialize and run the engine with basic timing
 ### Triangle Demo (DirectX 11)
 Location: `3d-demo/triangle_demo.cpp`
 
-Demonstrates DirectX 11 rendering capabilities with a color-cycling background.
+Demonstrates DirectX 11 rendering with a colored triangle on a color-cycling background.
 
 **Features Demonstrated:**
 - DirectX 11 device initialization
 - Swap chain management
-- Clear screen with dynamic colors
-- Render loop integration
-- Shader system preparation
+- Vertex buffer creation and management
+- Shader compilation and binding (HLSL)
+- Triangle rendering with per-vertex colors
+- Dynamic background color animation
 
 **Requirements:** Windows with DirectX 11 support
 
@@ -40,7 +41,7 @@ Demonstrates DirectX 11 rendering capabilities with a color-cycling background.
 ./bin/TriangleDemo
 ```
 
-**Note:** On Windows, this will open a window with a color-cycling background. Full triangle rendering will be completed in the next update.
+**What to Expect:** A window will open displaying a colored triangle (red, green, and blue vertices) on a slowly color-cycling background.
 
 ### 2D Platformer
 Location: `2d-platformer/`

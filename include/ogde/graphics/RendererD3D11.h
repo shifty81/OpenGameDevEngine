@@ -89,6 +89,32 @@ public:
      */
     bool isInitialized() const { return m_initialized; }
 
+    /**
+     * @brief Create a vertex buffer
+     * @param vertices Pointer to vertex data
+     * @param vertexSize Size of a single vertex in bytes
+     * @param vertexCount Number of vertices
+     * @param outBuffer Output pointer to store the created vertex buffer
+     * @return true if successful
+     */
+    bool createVertexBuffer(const void* vertices, uint32_t vertexSize, uint32_t vertexCount, 
+                           ID3D11Buffer** outBuffer);
+
+    /**
+     * @brief Draw vertices using the current vertex buffer
+     * @param vertexCount Number of vertices to draw
+     * @param startVertex Starting vertex index
+     */
+    void draw(uint32_t vertexCount, uint32_t startVertex = 0);
+
+    /**
+     * @brief Set the active vertex buffer
+     * @param buffer Vertex buffer to set
+     * @param vertexSize Size of a single vertex in bytes
+     * @param offset Offset in bytes from the start of the buffer
+     */
+    void setVertexBuffer(ID3D11Buffer* buffer, uint32_t vertexSize, uint32_t offset = 0);
+
 private:
     /**
      * @brief Create the render target view
