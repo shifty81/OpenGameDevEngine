@@ -3,10 +3,10 @@
 # Platform library
 add_subdirectory(platform)
 
-# Core library
+# Core library (contains Logger which Graphics needs)
 add_subdirectory(core)
 
-# Graphics library
+# Graphics library (depends on Core for Logger)
 add_subdirectory(graphics)
 
 # Audio library
