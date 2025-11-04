@@ -16,6 +16,8 @@ This project provides a well-organized structure and build system foundation for
   - Clear screen and color rendering
   - Shader compilation system (HLSL)
   - Window resize support
+  - Vertex buffer management
+  - Triangle and primitive rendering
 - **Logging System**: Multi-level logging with timestamps and file output
 - **Build Automation**: CMake-based build system with Windows batch scripts
 
@@ -112,16 +114,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Status
 
-🚀 **Phase 1: Foundation - 75% Complete** 🚀
+🚀 **Phase 1: Foundation - 85% Complete** 🚀
 
 The engine has successfully implemented:
 - ✅ Core engine loop and timing system
 - ✅ Platform abstraction layer (Windows/Linux)
 - ✅ DirectX 11 rendering foundation
 - ✅ Shader compilation system
+- ✅ Vertex buffer management
+- ✅ Triangle rendering with colored vertices
 - ✅ Comprehensive logging system
 - ✅ Build automation
 
-Next up: Complete triangle rendering and mesh support!
+Next up: Camera system and mesh loading!
 
 See [ROADMAP.md](docs/ROADMAP.md) for the full development plan.
