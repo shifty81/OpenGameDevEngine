@@ -18,6 +18,11 @@ This project provides a well-organized structure and build system foundation for
   - Window resize support
   - Vertex buffer management
   - Triangle and primitive rendering
+- **Camera System**: 
+  - Perspective and orthographic projections
+  - View and projection matrix generation
+  - Look-at camera positioning
+  - Camera direction vectors
 - **Logging System**: Multi-level logging with timestamps and file output
 - **Build Automation**: CMake-based build system with Windows batch scripts
 
@@ -93,6 +98,7 @@ Check out the `examples/` directory for sample projects demonstrating engine fea
 
 - **BasicExample**: Minimal engine initialization and main loop
 - **TriangleDemo**: DirectX 11 rendering with color-cycling background
+- **CameraDemo**: 3D camera system with a rotating cube
 
 See [examples/README.md](examples/README.md) for more information.
 
@@ -133,7 +139,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Status
 
-🚀 **Phase 1: Foundation - 85% Complete** 🚀
+🚀 **Phase 1: Foundation - 95% Complete** 🚀
 
 The engine has successfully implemented:
 - ✅ Core engine loop and timing system
@@ -142,9 +148,10 @@ The engine has successfully implemented:
 - ✅ Shader compilation system
 - ✅ Vertex buffer management
 - ✅ Triangle rendering with colored vertices
+- ✅ Camera system (perspective and orthographic)
 - ✅ Comprehensive logging system
 - ✅ Build automation
 
-Next up: Camera system and mesh loading!
+Next up: Mesh loading and material system!
 
 See [ROADMAP.md](docs/ROADMAP.md) for the full development plan.
