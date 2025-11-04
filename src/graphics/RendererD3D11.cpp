@@ -158,7 +158,7 @@ bool RendererD3D11::initialize(HWND hwnd, uint32_t width, uint32_t height, bool 
     D3D11_RASTERIZER_DESC rasterizerDesc = {};
     rasterizerDesc.FillMode = D3D11_FILL_SOLID;
     rasterizerDesc.CullMode = D3D11_CULL_NONE;  // Disable backface culling
-    rasterizerDesc.FrontCounterClockwise = FALSE;  // Clockwise is front-facing
+    rasterizerDesc.FrontCounterClockwise = FALSE;  // Counter-clockwise is front-facing (default)
     rasterizerDesc.DepthBias = 0;
     rasterizerDesc.DepthBiasClamp = 0.0f;
     rasterizerDesc.SlopeScaledDepthBias = 0.0f;
