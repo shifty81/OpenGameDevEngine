@@ -101,6 +101,14 @@ private:
      */
     void releaseRenderTarget();
 
+    /**
+     * @brief Create depth stencil buffer and view
+     * @param width Buffer width
+     * @param height Buffer height
+     * @return true if successful
+     */
+    bool createDepthStencil(uint32_t width, uint32_t height);
+
     bool m_initialized;
     bool m_vsyncEnabled;
     uint32_t m_width;

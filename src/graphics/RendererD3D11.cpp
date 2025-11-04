@@ -62,7 +62,7 @@ bool RendererD3D11::initialize(HWND hwnd, uint32_t width, uint32_t height, bool 
     // Convert wide string to regular string for logging
     char adapterName[128];
     size_t converted = 0;
-    wcstombs_s(&converted, adapterName, 128, adapterDesc.Description, 127);
+    wcstombs_s(&converted, adapterName, sizeof(adapterName), adapterDesc.Description, _TRUNCATE);
     core::Logger::info("Using GPU: " + std::string(adapterName));
 
     // Swap chain description
@@ -134,35 +134,9 @@ bool RendererD3D11::initialize(HWND hwnd, uint32_t width, uint32_t height, bool 
         return false;
     }
 
-    // Create depth stencil buffer
-    D3D11_TEXTURE2D_DESC depthStencilDesc = {};
-    depthStencilDesc.Width = width;
-    depthStencilDesc.Height = height;
-    depthStencilDesc.MipLevels = 1;
-    depthStencilDesc.ArraySize = 1;
-    depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-    depthStencilDesc.SampleDesc.Count = 1;
-    depthStencilDesc.SampleDesc.Quality = 0;
-    depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
-    depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-    depthStencilDesc.CPUAccessFlags = 0;
-    depthStencilDesc.MiscFlags = 0;
-
-    hr = m_device->CreateTexture2D(&depthStencilDesc, nullptr, m_depthStencilBuffer.GetAddressOf());
-    if (FAILED(hr)) {
-        core::Logger::error("Failed to create depth stencil buffer");
-        return false;
-    }
-
-    // Create depth stencil view
-    D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
-    dsvDesc.Format = depthStencilDesc.Format;
-    dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-    dsvDesc.Texture2D.MipSlice = 0;
-
-    hr = m_device->CreateDepthStencilView(m_depthStencilBuffer.Get(), &dsvDesc, m_depthStencilView.GetAddressOf());
-    if (FAILED(hr)) {
-        core::Logger::error("Failed to create depth stencil view");
+    // Create depth stencil buffer and view
+    if (!createDepthStencil(width, height)) {
+        core::Logger::error("Failed to create depth stencil");
         return false;
     }
 
@@ -273,35 +247,9 @@ void RendererD3D11::resize(uint32_t width, uint32_t height) {
         return;
     }
 
-    // Recreate depth stencil buffer
-    D3D11_TEXTURE2D_DESC depthStencilDesc = {};
-    depthStencilDesc.Width = width;
-    depthStencilDesc.Height = height;
-    depthStencilDesc.MipLevels = 1;
-    depthStencilDesc.ArraySize = 1;
-    depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-    depthStencilDesc.SampleDesc.Count = 1;
-    depthStencilDesc.SampleDesc.Quality = 0;
-    depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
-    depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-    depthStencilDesc.CPUAccessFlags = 0;
-    depthStencilDesc.MiscFlags = 0;
-
-    hr = m_device->CreateTexture2D(&depthStencilDesc, nullptr, m_depthStencilBuffer.GetAddressOf());
-    if (FAILED(hr)) {
-        core::Logger::error("Failed to recreate depth stencil buffer");
-        return;
-    }
-
-    // Recreate depth stencil view
-    D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
-    dsvDesc.Format = depthStencilDesc.Format;
-    dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-    dsvDesc.Texture2D.MipSlice = 0;
-
-    hr = m_device->CreateDepthStencilView(m_depthStencilBuffer.Get(), &dsvDesc, m_depthStencilView.GetAddressOf());
-    if (FAILED(hr)) {
-        core::Logger::error("Failed to recreate depth stencil view");
+    // Recreate depth stencil buffer and view
+    if (!createDepthStencil(width, height)) {
+        core::Logger::error("Failed to recreate depth stencil after resize");
         return;
     }
 
@@ -347,6 +295,46 @@ bool RendererD3D11::createRenderTarget() {
 
 void RendererD3D11::releaseRenderTarget() {
     m_renderTargetView.Reset();
+}
+
+bool RendererD3D11::createDepthStencil(uint32_t width, uint32_t height) {
+    if (!m_device) {
+        return false;
+    }
+
+    // Create depth stencil buffer
+    D3D11_TEXTURE2D_DESC depthStencilDesc = {};
+    depthStencilDesc.Width = width;
+    depthStencilDesc.Height = height;
+    depthStencilDesc.MipLevels = 1;
+    depthStencilDesc.ArraySize = 1;
+    depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    depthStencilDesc.SampleDesc.Count = 1;
+    depthStencilDesc.SampleDesc.Quality = 0;
+    depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+    depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+    depthStencilDesc.CPUAccessFlags = 0;
+    depthStencilDesc.MiscFlags = 0;
+
+    HRESULT hr = m_device->CreateTexture2D(&depthStencilDesc, nullptr, m_depthStencilBuffer.GetAddressOf());
+    if (FAILED(hr)) {
+        core::Logger::error("Failed to create depth stencil buffer");
+        return false;
+    }
+
+    // Create depth stencil view
+    D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
+    dsvDesc.Format = depthStencilDesc.Format;
+    dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+    dsvDesc.Texture2D.MipSlice = 0;
+
+    hr = m_device->CreateDepthStencilView(m_depthStencilBuffer.Get(), &dsvDesc, m_depthStencilView.GetAddressOf());
+    if (FAILED(hr)) {
+        core::Logger::error("Failed to create depth stencil view");
+        return false;
+    }
+
+    return true;
 }
 
 } // namespace graphics

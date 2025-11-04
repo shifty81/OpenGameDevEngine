@@ -5,6 +5,7 @@
 
 #include <OpenGameDevEngine.h>
 #include <iostream>
+#include <cmath>
 
 #ifdef _WIN32
 #include "ogde/graphics/Shader.h"
