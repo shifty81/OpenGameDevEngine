@@ -80,13 +80,6 @@ int main() {
         return 1;
     }
 
-    // Get DirectX 11 renderer (Windows only)
-    auto* d3dRenderer = dynamic_cast<ogde::graphics::Renderer*>(renderer);
-    
-    // Get the actual D3D11 device and context
-    // We need to access these through the platform-specific implementation
-    // For now, we'll create our resources here and manage them locally
-    
     ogde::core::Logger::info("DirectX 11 triangle rendering example");
 
     // Triangle vertices (in NDC space: -1 to 1)
@@ -140,7 +133,6 @@ int main() {
     }
 
     ogde::core::Logger::info("Vertex buffer created successfully!");
-    #endif
 
     // Set update callback
     uint32_t frameCount = 0;
@@ -165,12 +157,10 @@ int main() {
         
         renderer->clear(r * 0.2f, g * 0.2f, b * 0.2f, 1.0f);
         
-        #ifdef _WIN32
         // Bind shader and render triangle
         shader.bind(deviceContext);
         d3d11Renderer->setVertexBuffer(vertexBuffer.Get(), sizeof(Vertex));
         d3d11Renderer->draw(3);
-        #endif
     });
 
     ogde::core::Logger::info("Starting engine main loop...");
@@ -181,6 +171,8 @@ int main() {
     
     engine.shutdown();
     std::cout << "Engine shutdown complete." << std::endl;
+    #endif // _WIN32
+    
     return 0;
 }
 
