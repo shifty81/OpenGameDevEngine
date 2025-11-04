@@ -19,6 +19,9 @@ void Engine::shutdown() {
 void Engine::run() {
     while (m_running) {
         // Main game loop logic would go here
+        // TODO: Add frame rate limiting, input processing, update, and render calls
+        // For now, this is a placeholder that should be called manually in a controlled loop
+        break; // Exit immediately in template implementation
     }
 }
 

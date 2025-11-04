@@ -1,16 +1,19 @@
 # OpenGameDevEngine
 
-A modular, cross-platform game development engine built with C++17.
+A modular game development engine template built with C++17.
 
-## Features
+This project provides a well-organized structure and build system foundation for building a game engine.
+
+## Features (Planned)
 
 - **Modular Architecture**: Independent subsystems that can be used separately
-- **Graphics Rendering**: Modern rendering pipeline with OpenGL/Vulkan support (planned)
+- **Graphics Rendering**: Modern rendering pipeline with OpenGL/Vulkan support
 - **Audio System**: Multi-channel audio with support for music and sound effects
 - **Input Handling**: Keyboard, mouse, and controller input support
 - **Physics Engine**: 2D/3D physics simulation and collision detection
 - **Scripting**: Embedded scripting support for game logic
 - **Networking**: Built-in multiplayer networking capabilities
+- **Cross-platform**: Support for Windows, Linux, and macOS
 
 ## Project Structure
 
