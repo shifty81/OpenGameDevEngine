@@ -1,6 +1,13 @@
 # Build Scripts
 
-This directory contains automated build scripts for OpenGameDevEngine.
+This directory contains automated build scripts and tools for OpenGameDevEngine.
+
+## Available Scripts
+
+- **setup.bat** - First-time setup and prerequisite checking (Windows)
+- **build.bat** - Automated build script (Windows)
+- **test-pr.bat** - Automated PR testing tool (Windows)
+- **test-pr.sh** - Automated PR testing tool (Linux/macOS)
 
 ## For Windows Users
 
@@ -85,6 +92,100 @@ DirectX is included with Windows SDK (installed with Visual Studio).
 - Check the log file in the `logs/` directory
 - Make sure all prerequisites are installed
 - Try running `scripts\build.bat --clean` to rebuild from scratch
+
+## Testing Pull Requests
+
+The PR testing tool allows you to easily test pull requests in two modes:
+
+### Quick Start
+
+#### Windows
+```batch
+REM Test a specific PR
+scripts\test-pr.bat --pr 42
+
+REM Test PR in separate directory (multi-version mode)
+scripts\test-pr.bat --pr 42 --multi-version
+
+REM Auto-detect next PR (requires gh CLI)
+scripts\test-pr.bat
+```
+
+#### Linux/macOS
+```bash
+# Test a specific PR
+./scripts/test-pr.sh --pr 42
+
+# Test PR in separate directory (multi-version mode)
+./scripts/test-pr.sh --pr 42 --multi-version
+
+# Auto-detect next PR (requires gh CLI)
+./scripts/test-pr.sh
+```
+
+### Modes
+
+#### In-Place Mode (Default)
+Updates your current directory with the PR code:
+- Fetches the PR from the repository
+- Checks out the PR branch locally
+- Automatically builds the project
+- Best for quick testing of a single PR
+
+#### Multi-Version Mode
+Creates separate directories for each PR:
+- Clones the repository to a new directory (e.g., `pr-workspace/pr-42/`)
+- Allows testing multiple PRs side-by-side
+- Each PR is isolated in its own directory
+- Perfect for comparing different PR versions
+
+Example directory structure:
+```
+OpenGameDevEngine/
+  pr-workspace/
+    pr-42/    (PR #42 - Feature A)
+    pr-43/    (PR #43 - Feature B)
+    pr-44/    (PR #44 - Bug fix)
+```
+
+### Options
+
+- `--pr NUMBER` - Specify PR number to test
+- `--multi-version` - Create separate directory for each PR
+- `--in-place` - Update current directory (default)
+- `--no-build` - Skip automatic build after checkout
+- `--workspace PATH` - Custom workspace directory for multi-version mode
+- `--help` - Show detailed help message
+
+### Requirements
+
+- **Git** (required) - For fetching and checking out PRs
+- **GitHub CLI (gh)** (optional) - For auto-detecting next open PR
+  - Install from: https://cli.github.com/
+
+### Examples
+
+```batch
+REM Windows: Test PR #42 in current directory and build
+scripts\test-pr.bat --pr 42
+
+REM Windows: Test PR #42 in separate directory without building
+scripts\test-pr.bat --pr 42 --multi-version --no-build
+
+REM Windows: Auto-detect and test next open PR
+scripts\test-pr.bat
+```
+
+```bash
+# Linux/macOS: Test PR #42 in current directory and build
+./scripts/test-pr.sh --pr 42
+
+# Linux/macOS: Test PR #42 in separate directory without building
+./scripts/test-pr.sh --pr 42 --multi-version --no-build
+
+# Linux/macOS: Auto-detect and test next open PR
+./scripts/test-pr.sh
+```
 
 ## Manual Build (Alternative)
 
