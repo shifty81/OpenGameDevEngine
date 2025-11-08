@@ -3,6 +3,8 @@
 set(GRAPHICS_SOURCES
     Renderer.cpp
     Camera.cpp
+    Texture.cpp
+    Material.cpp
 )
 
 # Add DirectX 11 renderer on Windows
@@ -21,6 +23,7 @@ target_include_directories(OGDEGraphics
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_SOURCE_DIR}/external
 )
 
 # Graphics depends on Core for Logger
