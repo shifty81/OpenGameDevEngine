@@ -3,6 +3,7 @@
 add_library(OGDECore STATIC
     Engine.cpp
     Logger.cpp
+    FileSystem.cpp
 )
 
 target_include_directories(OGDECore
