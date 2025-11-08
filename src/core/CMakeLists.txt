@@ -3,6 +3,8 @@
 add_library(OGDECore STATIC
     Engine.cpp
     Logger.cpp
+    FileSystem.cpp
+    Config.cpp
 )
 
 target_include_directories(OGDECore
@@ -11,6 +13,7 @@ target_include_directories(OGDECore
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_SOURCE_DIR}/external
 )
 
 # Core links to platform library

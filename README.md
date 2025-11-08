@@ -10,6 +10,8 @@ This project provides a well-organized structure and build system foundation for
 - **Modular Architecture**: Independent subsystems that can be used separately
 - **Platform Layer**: Windows Win32 window management with cross-platform timer support
 - **Core Engine**: Main game loop with delta time, FPS monitoring, and callback system
+- **File I/O System**: Cross-platform file operations with comprehensive path utilities
+- **Configuration System**: JSON-based configuration management with type-safe access
 - **DirectX 11 Rendering**: 
   - Device and swap chain initialization
   - Render target and depth stencil management
@@ -18,6 +20,14 @@ This project provides a well-organized structure and build system foundation for
   - Window resize support
   - Vertex buffer management
   - Triangle and primitive rendering
+- **Texture System**:
+  - Image loading (PNG, JPG, BMP, TGA via stb_image)
+  - DirectX 11 texture resource management
+  - Automatic format conversion
+- **Material System**:
+  - Material properties (diffuse, ambient, specular)
+  - Multiple texture map support
+  - Opacity and shininess controls
 - **Camera System**: 
   - Perspective and orthographic projections
   - View and projection matrix generation
@@ -27,12 +37,14 @@ This project provides a well-organized structure and build system foundation for
 - **Build Automation**: CMake-based build system with Windows batch scripts
 
 ### Planned 🚧
+- **Mesh Loading**: OBJ and other 3D model formats
+- **Basic Lighting**: Directional and point lights
 - **Audio System**: Multi-channel audio with support for music and sound effects
 - **Input Handling**: Keyboard, mouse, and controller input support
 - **Physics Engine**: 2D/3D physics simulation and collision detection
 - **Scripting**: Embedded scripting support for game logic
 - **Networking**: Built-in multiplayer networking capabilities
-- **Advanced Graphics**: Triangle/mesh rendering, textures, lighting, and effects
+- **Advanced Graphics**: PBR materials, shadows, and post-processing effects
 
 ## Project Structure
 
@@ -139,9 +151,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Status
 
-🚀 **Phase 1: Foundation - 95% Complete** 🚀
+🚀 **Phase 1: Foundation - 100% Complete** 🚀
+🎨 **Phase 2: Core Rendering - 40% Complete** 🎨
 
 The engine has successfully implemented:
+
+**Phase 1 - Foundation:**
 - ✅ Core engine loop and timing system
 - ✅ Platform abstraction layer (Windows/Linux)
 - ✅ DirectX 11 rendering foundation
@@ -151,7 +166,17 @@ The engine has successfully implemented:
 - ✅ Camera system (perspective and orthographic)
 - ✅ Comprehensive logging system
 - ✅ Build automation
+- ✅ File I/O system
+- ✅ JSON-based configuration system
 
-Next up: Mesh loading and material system!
+**Phase 2 - Core Rendering (In Progress):**
+- ✅ Texture loading system (stb_image integration)
+- ✅ Material system with texture mapping
+- 🚧 Shader management (hot-reloading, parameter binding)
+- 🚧 Mesh loading (OBJ format)
+- 🚧 Transform system (MVP matrices)
+- 🚧 Basic lighting (directional and point lights)
+
+Next up: Mesh loading and basic lighting system!
 
 See [ROADMAP.md](docs/ROADMAP.md) for the full development plan.
